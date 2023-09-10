@@ -1,0 +1,251 @@
+{
+  "apiCredentials": [],
+  "chains": [
+    {
+      "authorizations": {
+        "requesterEndpointAuthorizations": {}
+      },
+      "authorizers": {
+        "crossChainRequesterAuthorizers": [],
+        "crossChainRequesterAuthorizersWithErc721": [],
+        "requesterAuthorizersWithErc721": [],
+        "requesterEndpointAuthorizers": []
+      },
+      "blockHistoryLimit": 200,
+      "contracts": {
+        "AirnodeRrp": "0xa0AD79D995DdeeB18a14eAef56A549A04e3Aa1Bd"
+      },
+      "id": "80001",
+      "maxConcurrency": 50,
+      "minConfirmations": 0,
+      "options": {
+        "fulfillmentGasLimit": 5000000,
+        "gasPriceOracle": [
+          {
+            "gasPriceStrategy": "providerRecommendedGasPrice",
+            "recommendedGasPriceMultiplier": 1.2
+          },
+          {
+            "gasPrice": {
+              "unit": "gwei",
+              "value": 10
+            },
+            "gasPriceStrategy": "constantGasPrice"
+          }
+        ],
+        "withdrawalRemainder": {
+          "unit": "wei",
+          "value": 0
+        }
+      },
+      "providers": {
+        "polygonMumbaiPublic": {
+          "url": "https://rpc-mumbai.maticvigil.com"
+        },
+        "polygonMumbaiTestnet1": {
+          "url": "${POLYGON_MUMBAI_TESTNET_1_PROVIDER_URL}"
+        }
+      },
+      "type": "evm"
+    }
+  ],
+  "nodeSettings": {
+    "airnodeWalletMnemonic": "${AIRNODE_WALLET_MNEMONIC}",
+    "cloudProvider": {
+      "type": "local"
+    },
+    "heartbeat": {
+      "apiKey": "${HEARTBEAT_API_KEY}",
+      "enabled": true,
+      "url": "${HEARTBEAT_URL}"
+    },
+    "httpGateway": {
+      "corsOrigins": [],
+      "enabled": true,
+      "maxConcurrency": 20
+    },
+    "httpSignedDataGateway": {
+      "corsOrigins": [],
+      "enabled": true,
+      "maxConcurrency": 20
+    },
+    "logFormat": "plain",
+    "logLevel": "INFO",
+    "nodeVersion": "0.12.0",
+    "oevGateway": {
+      "corsOrigins": [],
+      "enabled": true,
+      "maxConcurrency": 20
+    },
+    "stage": "0x3zero-airnode"
+  },
+  "ois": [
+    {
+      "apiSpecifications": {
+        "components": {
+          "securitySchemes": {}
+        },
+        "paths": {
+          "/api/v0/json-rpc": {
+            "post": {
+              "parameters": [
+                {
+                  "in": "query",
+                  "name": "jsonrpc"
+                },
+                {
+                  "in": "query",
+                  "name": "method"
+                },
+                {
+                  "in": "query",
+                  "name": "params"
+                },
+                {
+                  "in": "query",
+                  "name": "id"
+                },
+                {
+                  "in": "query",
+                  "name": "data_key"
+                },
+                {
+                  "in": "query",
+                  "name": "version"
+                },
+                {
+                  "in": "query",
+                  "name": "datas"
+                }
+              ]
+            }
+          }
+        },
+        "security": {},
+        "servers": [
+          {
+            "url": "https://dev.fluence.0x3zero.com"
+          }
+        ]
+      },
+      "endpoints": [
+        {
+          "fixedOperationParameters": [
+            {
+              "operationParameter": {
+                "in": "query",
+                "name": "jsonrpc"
+              },
+              "value": "2.0"
+            },
+            {
+              "operationParameter": {
+                "in": "query",
+                "name": "method"
+              },
+              "value": "get_metadatas"
+            },
+            {
+              "operationParameter": {
+                "in": "query",
+                "name": "id"
+              },
+              "value": "1"
+            }
+          ],
+          "name": "Get Metadatas",
+          "operation": {
+            "method": "post",
+            "path": "/api/v0/json-rpc"
+          },
+          "parameters": [
+            {
+              "name": "params",
+              "operationParameter": {
+                "in": "query",
+                "name": "params"
+              },
+              "required": true
+            },
+            {
+              "name": "data_key",
+              "operationParameter": {
+                "in": "query",
+                "name": "data_key"
+              },
+              "required": false
+            },
+            {
+              "name": "version",
+              "operationParameter": {
+                "in": "query",
+                "name": "version"
+              },
+              "required": false
+            },
+            {
+              "name": "datas",
+              "operationParameter": {
+                "in": "query",
+                "name": "datas"
+              },
+              "required": false
+            }
+          ],
+          "postProcessingSpecifications": [
+            {
+              "environment": "Node",
+              "timeoutMs": 5000,
+              "value": "const pks = [...new Set(input.result.metadatas.map(m => m.public_key))]; const output = { datas: endpointParameters.datas, data_key: pks.length > 0 ? input.result.metadatas[0].data_key : '', addresses: pks.join('') };"
+            }
+          ],
+          "preProcessingSpecifications": [
+            {
+              "environment": "Node",
+              "timeoutMs": 5000,
+              "value": "const output = {...input, params: [input.data_key, input.version]};"
+            }
+          ],
+          "reservedParameters": [
+            {
+              "fixed": "string,bytes,string",
+              "name": "_type"
+            },
+            {
+              "fixed": "data_key,datas,addresses",
+              "name": "_path"
+            }
+          ]
+        }
+      ],
+      "oisFormat": "2.1.0",
+      "title": "0x3Zero JSONRPC",
+      "version": "0.1.0"
+    }
+  ],
+  "templates": [],
+  "triggers": {
+    "http": [
+      {
+        "endpointId": "0x2a869e951559e9ac1409b004e7d24777b5e6763177e3be7311f5517215a9e235",
+        "endpointName": "Get Metadatas",
+        "oisTitle": "0x3Zero JSONRPC"
+      }
+    ],
+    "httpSignedData": [
+      {
+        "endpointId": "0x2a869e951559e9ac1409b004e7d24777b5e6763177e3be7311f5517215a9e235",
+        "endpointName": "Get Metadatas",
+        "oisTitle": "0x3Zero JSONRPC"
+      }
+    ],
+    "rrp": [
+      {
+        "cacheResponses": false,
+        "endpointId": "0x2a869e951559e9ac1409b004e7d24777b5e6763177e3be7311f5517215a9e235",
+        "endpointName": "Get Metadatas",
+        "oisTitle": "0x3Zero JSONRPC"
+      }
+    ]
+  }
+}

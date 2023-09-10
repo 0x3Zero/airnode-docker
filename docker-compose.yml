@@ -1,0 +1,10 @@
+version: '3.3'
+services:
+  airnode:
+    volumes:
+      - ./:/app/config
+    container_name: quick-start-container-airnode
+    image: api3/airnode-client:latest
+    ports:
+      - 3030:3000
+          
