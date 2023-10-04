@@ -15,6 +15,53 @@
       "contracts": {
         "AirnodeRrp": "0xa0AD79D995DdeeB18a14eAef56A549A04e3Aa1Bd"
       },
+      "id": "137",
+      "maxConcurrency": 50,
+      "minConfirmations": 0,
+      "options": {
+        "fulfillmentGasLimit": 5000000,
+        "gasPriceOracle": [
+          {
+            "gasPriceStrategy": "providerRecommendedGasPrice",
+            "recommendedGasPriceMultiplier": 1.2
+          },
+          {
+            "gasPrice": {
+              "unit": "gwei",
+              "value": 10
+            },
+            "gasPriceStrategy": "constantGasPrice"
+          }
+        ],
+        "withdrawalRemainder": {
+          "unit": "wei",
+          "value": 0
+        }
+      },
+      "providers": {
+        "polygon1": {
+          "url": "${POLYGON_1_PROVIDER_URL}"
+        },
+        "polygonPublic": {
+          "url": "https://polygon-rpc.com"
+        }
+      },
+      "type": "evm"
+    },
+    {
+      "authorizations": {
+        "requesterEndpointAuthorizations": {}
+      },
+      "authorizers": {
+        "crossChainRequesterAuthorizers": [],
+        "crossChainRequesterAuthorizersWithErc721": [],
+        "requesterAuthorizersWithErc721": [],
+        "requesterEndpointAuthorizers": []
+      },
+      "blockHistoryLimit": 200,
+      "contracts": {
+        "AirnodeRrp": "0xa0AD79D995DdeeB18a14eAef56A549A04e3Aa1Bd"
+      },
       "id": "80001",
       "maxConcurrency": 50,
       "minConfirmations": 0,
@@ -77,7 +124,7 @@
       "enabled": true,
       "maxConcurrency": 20
     },
-    "stage": "0x3zero-airnode"
+    "stage": "colla-airnode"
   },
   "ois": [
     {
@@ -91,19 +138,7 @@
               "parameters": [
                 {
                   "in": "query",
-                  "name": "jsonrpc"
-                },
-                {
-                  "in": "query",
-                  "name": "method"
-                },
-                {
-                  "in": "query",
                   "name": "params"
-                },
-                {
-                  "in": "query",
-                  "name": "id"
                 },
                 {
                   "in": "query",
@@ -116,6 +151,18 @@
                 {
                   "in": "query",
                   "name": "datas"
+                },
+                {
+                  "in": "query",
+                  "name": "jsonrpc"
+                },
+                {
+                  "in": "query",
+                  "name": "method"
+                },
+                {
+                  "in": "query",
+                  "name": "id"
                 }
               ]
             }
@@ -214,12 +261,160 @@
             {
               "fixed": "data_key,datas,addresses",
               "name": "_path"
+            },
+            {
+              "name": "_times"
             }
           ]
         }
       ],
       "oisFormat": "2.1.0",
-      "title": "0x3Zero JSONRPC",
+      "title": "0x3Zero JSONRPC Dev",
+      "version": "0.1.0"
+    },
+    {
+      "apiSpecifications": {
+        "components": {
+          "securitySchemes": {}
+        },
+        "paths": {
+          "/api/v0/json-rpc": {
+            "post": {
+              "parameters": [
+                {
+                  "in": "query",
+                  "name": "jsonrpc"
+                },
+                {
+                  "in": "query",
+                  "name": "id"
+                },
+                {
+                  "in": "query",
+                  "name": "method"
+                },
+                {
+                  "in": "query",
+                  "name": "params"
+                },
+                {
+                  "in": "query",
+                  "name": "data_key"
+                },
+                {
+                  "in": "query",
+                  "name": "version"
+                },
+                {
+                  "in": "query",
+                  "name": "datas"
+                }
+              ]
+            }
+          }
+        },
+        "security": {},
+        "servers": [
+          {
+            "url": "https://tuah.lineageprotocol.com"
+          }
+        ]
+      },
+      "endpoints": [
+        {
+          "fixedOperationParameters": [
+            {
+              "operationParameter": {
+                "in": "query",
+                "name": "jsonrpc"
+              },
+              "value": "2.0"
+            },
+            {
+              "operationParameter": {
+                "in": "query",
+                "name": "id"
+              },
+              "value": "1"
+            },
+            {
+              "operationParameter": {
+                "in": "query",
+                "name": "method"
+              },
+              "value": "get_metadatas"
+            }
+          ],
+          "name": "Get Metadatas",
+          "operation": {
+            "method": "post",
+            "path": "/api/v0/json-rpc"
+          },
+          "parameters": [
+            {
+              "name": "params",
+              "operationParameter": {
+                "in": "query",
+                "name": "params"
+              },
+              "required": true
+            },
+            {
+              "name": "data_key",
+              "operationParameter": {
+                "in": "query",
+                "name": "data_key"
+              },
+              "required": false
+            },
+            {
+              "name": "version",
+              "operationParameter": {
+                "in": "query",
+                "name": "version"
+              },
+              "required": false
+            },
+            {
+              "name": "datas",
+              "operationParameter": {
+                "in": "query",
+                "name": "datas"
+              },
+              "required": false
+            }
+          ],
+          "postProcessingSpecifications": [
+            {
+              "environment": "Node",
+              "timeoutMs": 5000,
+              "value": "const pks = [...new Set(input.result.metadatas.map(m => m.public_key))]; const output = { datas: endpointParameters.datas, data_key: pks.length > 0 ? input.result.metadatas[0].data_key : '', addresses: pks.join('') };"
+            }
+          ],
+          "preProcessingSpecifications": [
+            {
+              "environment": "Node",
+              "timeoutMs": 5000,
+              "value": "const output = {...input, params: [input.data_key, input.version]};"
+            }
+          ],
+          "reservedParameters": [
+            {
+              "fixed": "string,bytes,string",
+              "name": "_type"
+            },
+            {
+              "fixed": "data_key,datas,addresses",
+              "name": "_path"
+            },
+            {
+              "name": "_times"
+            }
+          ]
+        }
+      ],
+      "oisFormat": "2.1.0",
+      "title": "Lineage JSONRPC Prod",
       "version": "0.1.0"
     }
   ],
@@ -227,24 +422,40 @@
   "triggers": {
     "http": [
       {
-        "endpointId": "0x2a869e951559e9ac1409b004e7d24777b5e6763177e3be7311f5517215a9e235",
+        "endpointId": "0x304ecd5720ee55bc59e68131f8a018d9ff06079bc9060e7d8c5b5a9eff14addb",
         "endpointName": "Get Metadatas",
-        "oisTitle": "0x3Zero JSONRPC"
+        "oisTitle": "0x3Zero JSONRPC Dev"
+      },
+      {
+        "endpointId": "0x54a261540eebe1d59b419e691a918691fec2669f22675cf48b48f102bbf1781b",
+        "endpointName": "Get Metadatas",
+        "oisTitle": "Lineage JSONRPC Prod"
       }
     ],
     "httpSignedData": [
       {
-        "endpointId": "0x2a869e951559e9ac1409b004e7d24777b5e6763177e3be7311f5517215a9e235",
+        "endpointId": "0x304ecd5720ee55bc59e68131f8a018d9ff06079bc9060e7d8c5b5a9eff14addb",
         "endpointName": "Get Metadatas",
-        "oisTitle": "0x3Zero JSONRPC"
+        "oisTitle": "0x3Zero JSONRPC Dev"
+      },
+      {
+        "endpointId": "0x54a261540eebe1d59b419e691a918691fec2669f22675cf48b48f102bbf1781b",
+        "endpointName": "Get Metadatas",
+        "oisTitle": "Lineage JSONRPC Prod"
       }
     ],
     "rrp": [
       {
         "cacheResponses": false,
-        "endpointId": "0x2a869e951559e9ac1409b004e7d24777b5e6763177e3be7311f5517215a9e235",
+        "endpointId": "0x304ecd5720ee55bc59e68131f8a018d9ff06079bc9060e7d8c5b5a9eff14addb",
         "endpointName": "Get Metadatas",
-        "oisTitle": "0x3Zero JSONRPC"
+        "oisTitle": "0x3Zero JSONRPC Dev"
+      },
+      {
+        "cacheResponses": false,
+        "endpointId": "0x54a261540eebe1d59b419e691a918691fec2669f22675cf48b48f102bbf1781b",
+        "endpointName": "Get Metadatas",
+        "oisTitle": "Lineage JSONRPC Prod"
       }
     ]
   }
