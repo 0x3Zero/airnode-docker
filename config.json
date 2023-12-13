@@ -262,7 +262,7 @@
             {
               "environment": "Node",
               "timeoutMs": 5000,
-              "value": "const pks = [...new Set(input.result.metadatas.map(m => m.public_key))]; const output = { datas: endpointParameters.datas, data_key: pks.length > 0 ? input.result.metadatas[0].data_key : '', addresses: pks.join(''), request_id: endpointParameters.request_id };"
+              "value": "const pks = [...new Set(input.result.metadatas.map(m => m.public_key))]; const output = { datas: endpointParameters.datas, addresses: pks.join(''), request_id: endpointParameters.request_id };"
             }
           ],
           "preProcessingSpecifications": [
@@ -426,7 +426,7 @@
             {
               "environment": "Node",
               "timeoutMs": 5000,
-              "value": "const pks = [...new Set(input.result.metadatas.map(m => m.public_key))]; const output = { datas: endpointParameters.datas, data_key: pks.length > 0 ? input.result.metadatas[0].data_key : '', addresses: pks.join(''), request_id: endpointParameters.request_id };"
+              "value": "const pks = [...new Set(input.result.metadatas.map(m => m.public_key))]; const output = { datas: endpointParameters.datas, addresses: pks.join(''), request_id: endpointParameters.request_id };"
             }
           ],
           "preProcessingSpecifications": [
