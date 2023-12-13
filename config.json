@@ -163,6 +163,10 @@
                 {
                   "in": "query",
                   "name": "id"
+                },
+                {
+                  "in": "query",
+                  "name": "request_id"
                 }
               ]
             }
@@ -171,7 +175,7 @@
         "security": {},
         "servers": [
           {
-            "url": "https://dev.fluence.0x3zero.com"
+            "url": "https://arthur.lineageprotocol.com"
           }
         ]
       },
@@ -190,7 +194,14 @@
                 "in": "query",
                 "name": "method"
               },
-              "value": "get_metadatas"
+              "value": "get_metadatas_by_block"
+            },
+            {
+              "operationParameter": {
+                "in": "body",
+                "name": "params[1]"
+              },
+              "value": "7e432bcd-0ca5-4f6d-8c63-2c9474ca1676"
             },
             {
               "operationParameter": {
@@ -218,7 +229,7 @@
               "name": "data_key",
               "operationParameter": {
                 "in": "query",
-                "name": "data_key"
+                "name": "params[0]"
               },
               "required": false
             },
@@ -226,7 +237,7 @@
               "name": "version",
               "operationParameter": {
                 "in": "query",
-                "name": "version"
+                "name": "params[2]"
               },
               "required": false
             },
@@ -237,13 +248,21 @@
                 "name": "datas"
               },
               "required": false
+            },
+            {
+              "name": "request_id",
+              "operationParameter": {
+                "in": "query",
+                "name": "request_id"
+              },
+              "required": false
             }
           ],
           "postProcessingSpecifications": [
             {
               "environment": "Node",
               "timeoutMs": 5000,
-              "value": "const pks = [...new Set(input.result.metadatas.map(m => m.public_key))]; const output = { datas: endpointParameters.datas, data_key: pks.length > 0 ? input.result.metadatas[0].data_key : '', addresses: pks.join('') };"
+              "value": "const pks = [...new Set(input.result.metadatas.map(m => m.public_key))]; const output = { datas: endpointParameters.datas, data_key: pks.length > 0 ? input.result.metadatas[0].data_key : '', addresses: pks.join(''), request_id: endpointParameters.request_id };"
             }
           ],
           "preProcessingSpecifications": [
@@ -259,7 +278,7 @@
               "name": "_type"
             },
             {
-              "fixed": "data_key,datas,addresses",
+              "fixed": "datas,addresses,request_id",
               "name": "_path"
             },
             {
@@ -308,6 +327,10 @@
                 {
                   "in": "query",
                   "name": "datas"
+                },
+                {
+                  "in": "query",
+                  "name": "request_id"
                 }
               ]
             }
@@ -342,7 +365,14 @@
                 "in": "query",
                 "name": "method"
               },
-              "value": "get_metadatas"
+              "value": "get_metadatas_by_block"
+            },
+            {
+              "operationParameter": {
+                "in": "body",
+                "name": "params[1]"
+              },
+              "value": "7e432bcd-0ca5-4f6d-8c63-2c9474ca1676"
             }
           ],
           "name": "Get Metadatas",
@@ -363,7 +393,7 @@
               "name": "data_key",
               "operationParameter": {
                 "in": "query",
-                "name": "data_key"
+                "name": "params[0]"
               },
               "required": false
             },
@@ -371,7 +401,7 @@
               "name": "version",
               "operationParameter": {
                 "in": "query",
-                "name": "version"
+                "name": "params[2]"
               },
               "required": false
             },
@@ -382,13 +412,21 @@
                 "name": "datas"
               },
               "required": false
+            },
+            {
+              "name": "request_id",
+              "operationParameter": {
+                "in": "query",
+                "name": "request_id"
+              },
+              "required": false
             }
           ],
           "postProcessingSpecifications": [
             {
               "environment": "Node",
               "timeoutMs": 5000,
-              "value": "const pks = [...new Set(input.result.metadatas.map(m => m.public_key))]; const output = { datas: endpointParameters.datas, data_key: pks.length > 0 ? input.result.metadatas[0].data_key : '', addresses: pks.join('') };"
+              "value": "const pks = [...new Set(input.result.metadatas.map(m => m.public_key))]; const output = { datas: endpointParameters.datas, data_key: pks.length > 0 ? input.result.metadatas[0].data_key : '', addresses: pks.join(''), request_id: endpointParameters.request_id };"
             }
           ],
           "preProcessingSpecifications": [
@@ -404,7 +442,7 @@
               "name": "_type"
             },
             {
-              "fixed": "data_key,datas,addresses",
+              "fixed": "datas,addresses,request_id",
               "name": "_path"
             },
             {
