@@ -203,7 +203,7 @@
                 "in": "query",
                 "name": "meta_contract_id"
               },
-              "value": "7e432bcd-0ca5-4f6d-8c63-2c9474ca1676"
+              "value": "bb7c7427-1334-42c0-9053-9e8eadfa04fe"
             },
             {
               "operationParameter": {
@@ -271,7 +271,7 @@
             {
               "environment": "Node",
               "timeoutMs": 5000,
-              "value": "const output = {...input, params: [input.data_key, '7e432bcd-0ca5-4f6d-8c63-2c9474ca1676', input.version]};"
+              "value": "const output = {...input, params: [input.data_key, 'bb7c7427-1334-42c0-9053-9e8eadfa04fe', input.version]};"
             }
           ],
           "reservedParameters": [
@@ -378,7 +378,7 @@
                 "in": "query",
                 "name": "meta_contract_id"
               },
-              "value": "7e432bcd-0ca5-4f6d-8c63-2c9474ca1676"
+              "value": "bb7c7427-1334-42c0-9053-9e8eadfa04fe"
             }
           ],
           "name": "Get Metadatas",
@@ -439,7 +439,7 @@
             {
               "environment": "Node",
               "timeoutMs": 5000,
-              "value": "const output = {...input, params: [input.data_key, '7e432bcd-0ca5-4f6d-8c63-2c9474ca1676', input.version]};"
+              "value": "const output = {...input, params: [input.data_key, 'bb7c7427-1334-42c0-9053-9e8eadfa04fe', input.version]};"
             }
           ],
           "reservedParameters": [
