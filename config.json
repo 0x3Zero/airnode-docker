@@ -19,7 +19,6 @@
       "maxConcurrency": 50,
       "minConfirmations": 0,
       "options": {
-        "fulfillmentGasLimit": 5000000,
         "gasPriceOracle": [
           {
             "gasPriceStrategy": "providerRecommendedGasPrice",
@@ -66,7 +65,6 @@
       "maxConcurrency": 50,
       "minConfirmations": 0,
       "options": {
-        "fulfillmentGasLimit": 5000000,
         "gasPriceOracle": [
           {
             "gasPriceStrategy": "providerRecommendedGasPrice",
@@ -167,6 +165,10 @@
                 {
                   "in": "query",
                   "name": "request_id"
+                },
+                {
+                  "in": "query",
+                  "name": "meta_contract_id"
                 }
               ]
             }
@@ -198,8 +200,8 @@
             },
             {
               "operationParameter": {
-                "in": "body",
-                "name": "params[1]"
+                "in": "query",
+                "name": "meta_contract_id"
               },
               "value": "7e432bcd-0ca5-4f6d-8c63-2c9474ca1676"
             },
@@ -229,7 +231,7 @@
               "name": "data_key",
               "operationParameter": {
                 "in": "query",
-                "name": "params[0]"
+                "name": "data_key"
               },
               "required": false
             },
@@ -237,7 +239,7 @@
               "name": "version",
               "operationParameter": {
                 "in": "query",
-                "name": "params[2]"
+                "name": "version"
               },
               "required": false
             },
@@ -269,12 +271,12 @@
             {
               "environment": "Node",
               "timeoutMs": 5000,
-              "value": "const output = {...input, params: [input.data_key, input.version]};"
+              "value": "const output = {...input, params: [input.data_key, '7e432bcd-0ca5-4f6d-8c63-2c9474ca1676', input.version]};"
             }
           ],
           "reservedParameters": [
             {
-              "fixed": "string,bytes,string",
+              "fixed": "bytes,string,bytes32",
               "name": "_type"
             },
             {
@@ -331,6 +333,10 @@
                 {
                   "in": "query",
                   "name": "request_id"
+                },
+                {
+                  "in": "query",
+                  "name": "meta_contract_id"
                 }
               ]
             }
@@ -369,8 +375,8 @@
             },
             {
               "operationParameter": {
-                "in": "body",
-                "name": "params[1]"
+                "in": "query",
+                "name": "meta_contract_id"
               },
               "value": "7e432bcd-0ca5-4f6d-8c63-2c9474ca1676"
             }
@@ -393,7 +399,7 @@
               "name": "data_key",
               "operationParameter": {
                 "in": "query",
-                "name": "params[0]"
+                "name": "data_key"
               },
               "required": false
             },
@@ -401,7 +407,7 @@
               "name": "version",
               "operationParameter": {
                 "in": "query",
-                "name": "params[2]"
+                "name": "version"
               },
               "required": false
             },
@@ -433,12 +439,12 @@
             {
               "environment": "Node",
               "timeoutMs": 5000,
-              "value": "const output = {...input, params: [input.data_key, input.version]};"
+              "value": "const output = {...input, params: [input.data_key, '7e432bcd-0ca5-4f6d-8c63-2c9474ca1676', input.version]};"
             }
           ],
           "reservedParameters": [
             {
-              "fixed": "string,bytes,string",
+              "fixed": "bytes,string,bytes32",
               "name": "_type"
             },
             {
